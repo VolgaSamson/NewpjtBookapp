@@ -1,0 +1,35 @@
+<nav class="navbar navbar-custom">
+  <div class="container-fluid">
+    <img
+    width="40"
+    alt="Book Logo"
+    src="../../assets/Book-icon.png"
+  />
+  <a class="active" (click)="onhome()"><i class="fa fa-fw fa-home"></i> Home</a>
+  <div class="btn-group" dropdown>
+    <button id="button-animated" dropdownToggle type="button" class="btn dropdown-toggle"
+            aria-controls="dropdown-animated">
+      My Lists <span class="caret"></span>
+    </button>
+    <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu"
+        role="menu" aria-labelledby="button-animated">
+      <li role="menuitem"><a class="dropdown-item" (click)="ongocreateList()">Create Lists</a></li>
+      <li role="menuitem"><a class="dropdown-item" (click)="ongoViewList()">View Lists</a>
+    </ul>
+  </div>
+  
+    <form class="d-flex input-group w-auto">
+      <input
+        type="search"
+        onkeyup="myFunction()"
+        class="form-control rounded"
+        placeholder="Search"
+        aria-label="Search"
+      />
+      <span class="input-group-text border-0" id="search-addon">
+        <i class="fa fa-search"></i>
+      </span>
+    </form>
+  </div>
+</nav>
+<router-outlet></router-outlet>

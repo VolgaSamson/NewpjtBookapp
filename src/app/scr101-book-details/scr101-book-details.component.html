@@ -1,0 +1,230 @@
+<div class="container-fluid g-0">
+
+    
+  
+    <!-- MAIN CONTENT -->
+    <main class="black-borde">
+  
+      <!-- TOOBAR TO ADD AND SEARCH EMPLOYEES -->
+      <div class="toolbar">
+  
+        <div class="add-employee">
+          <button type="button" class="btn btn-success btn-lg" data-bs-toggle="modal"
+            data-bs-target="#exampleModal" #addBookButton>Add List</button>
+        </div>
+  
+        <div class="search-employees">
+          <input type="search" class="form-control" placeholder="Search for Author"
+          [(ngModel)]="title1"
+            >
+        </div>
+  
+      </div>
+  
+      <!-- AREA TO DISPLAY ALL THE EMPLOYEES -->
+      <div class="employees" > 
+        <div class="row mt-5" *ngIf="BooksToDisplay.length == 0">
+          <div class="col text-center">
+            <span class="text-secondary fs-2 fw-bold fst-italic">There are No Books Added!</span>
+          </div>
+        </div>
+       
+          <div class="row mt-4" *ngFor="let books of BooksToDisplay;let i = index;" 
+          cdkDropList
+  [cdkDropListData]="books"
+  (cdkDropListDropped)="drop($event)">
+ 
+        <div class="taskname">
+          <div class="btn-group" role="group" *ngIf="books.task == null">
+            <button type="button" class="btn btn-outline-danger btn-lg" 
+            (click)="deleteBookClicked(i)">Delete List</button>
+            <button
+          *ngIf="books.task == null"          
+          type="button" class="btn btn-outline-success btn-lg"
+(click)="addnewbutton(books)"      
+>
+Add New Books
+</button>
+        </div>
+          
+          {{books.task}}
+        </div>
+                 
+         
+          <div class="col" *ngFor="let item of books | namefilter : title1;let j = index;" cdkDrag>  
+            <div class="container-img">
+              <img src="../../assets/Images/{{item.imgUrl}}" alt="Profile Image" class="profile">
+          </div>
+  
+          <div class="col ps-2">
+  
+              <div class="row g-0">
+  
+                  <div class="col-md-10 text-center">
+                      <span class="name">{{item.title}} </span>
+                  </div>
+  
+                  <div class="col-md-2 d-flex justify-content-center align-items-center">
+                      <div class="btn-group" role="group">
+                          <button type="button" class="btn btn-outline-danger"
+                          (click)="deleteoneBookClicked(books,j)">Delete</button>
+                      </div>
+                  </div>
+  
+              </div>
+  
+              <div class="row g-0 mt-3">
+  
+                  <div class="col-md">
+  
+                      <table class="table table-hover mx-auto">
+                          <thead class="text-center fs-5 fst-italic text-secondary">
+                              <tr>
+                                  <td colspan="2">Book Details</td>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr>
+                                  <td>Year of Publication</td>
+                                  <td>{{item.year}}</td>
+                              </tr>
+                              <tr>
+                                  <td>Author</td>
+                                  <td>{{item.author}}</td>
+                              </tr>
+                                                      </tbody>
+                      </table>
+  
+                  </div>
+  
+                 
+  
+              </div>
+  
+          </div>
+            
+          </div>
+        </div>
+      
+      </div>
+    </main>
+  </div>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Enter Books List Information</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div [formGroup]="TasksItem" *ngIf="taskdisplay">
+          <tr style="width: auto">
+            <td>
+                
+              <input matInput formControlName="task"
+          class="form-control"
+          type="text"
+          placeholder="Enter List Name"
+              > 
+                    </td>
+                  </tr>
+
+        </div>
+
+        <div class="modal-body">
+          <div [formGroup]="DocumentItem">
+            
+            <div class="tableWrapper">
+      <table formArrayName="documentitem"
+      class="createdocumentflex"
+      style="margin-top: 10px">
+      
+                    <tr>
+                      
+        <th></th>   
+        <th>Author</th>
+      <th>Title</th>
+      <th>Year</th>
+      <th>Image Url</th>
+      <th style="cursor: pointer;">
+        <button
+        type="button"
+        (click)="additem()"
+        mat-icon-button
+        >
+    <span class="material-icons" style="text-align:center">add_circle</span>
+        </button>
+    
+    </th>
+      </tr>
+      <tr
+      *ngFor="let item of documentdata.controls; let i = index"
+      [formGroupName]="i">
+      <td style="cursor: pointer;">
+          <button
+          type="button"
+          mat-icon-button
+      (click)="deleteitem(i)">
+          
+      <span class="material-icons" style="text-align:center">delete</span>
+          </button>
+      </td>
+      
+      <td>
+          
+        <input matInput formControlName="author"
+    class="form-control"
+    type="text"
+        > 
+              </td>
+              <td>
+              <input matInput formControlName="title"
+    class="form-control"
+    type="text"
+              >
+            </td>
+            <td>
+              <input matInput formControlName="year"
+    class="form-control"
+    type="number"
+              >
+            </td>
+              <td>
+              
+              <input matInput formControlName="imgUrl"
+    class="form-control"
+              > 
+              </td>
+              <td>
+      
+          <input type="file"
+          #file
+          style="display: none"
+          (change)="onFilesAdded()"
+          />
+          <button type="button"
+          color="primary"
+          (click)="addFiles(i)"
+          >
+          Browse
+      </button>
+      </td>
+      
+      </tr>
+      </table>
+      </div>
+    </div>
+ 
+        </div>
+        <div class="modal-footer">
+          <button
+          *ngIf="oldbutton"
+          type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="save()">Insert</button>
+          <button
+          *ngIf="newbutton"
+          type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="savenewadd()">Insert</button>
+        </div>
+      </div>
+    </div>
+  </div>

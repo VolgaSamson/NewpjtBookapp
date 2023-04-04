@@ -1,0 +1,16 @@
+<div class="bookdisplay">
+<h2>Recommended Books</h2> 
+<div class="row-items">  
+<div  class="container-box" *ngFor="let book of books | namefilter : title1">
+  <div class="container-img">
+    <img [src]="book.imgUrl">
+  </div>
+        <h4>{{book.title}}</h4>
+        <p>{{book.year }}</p>
+        <p>{{book.author }}</p>
+  </div>
+</div>
+</div>
+
+
+
